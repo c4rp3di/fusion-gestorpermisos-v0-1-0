@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema oscuro fijo de la suite (Material 3). Los acentos vienen de colors.xml, igual que en Vigía y Task Master. -->
+    <style name="Theme.Suite" parent="Theme.Material3.Dark.NoActionBar" />
+</resources>
