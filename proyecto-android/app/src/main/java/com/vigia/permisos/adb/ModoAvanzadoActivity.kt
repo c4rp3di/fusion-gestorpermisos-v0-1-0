@@ -63,6 +63,8 @@ private fun abrirDesarrollo() {
         )
         putExtra(":settings:show_fragment", "com.android.settings.development.WirelessDebuggingFragment")
         putExtra(":settings:show_fragment_title", "Depuración inalámbrica")
+        
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
     try {
