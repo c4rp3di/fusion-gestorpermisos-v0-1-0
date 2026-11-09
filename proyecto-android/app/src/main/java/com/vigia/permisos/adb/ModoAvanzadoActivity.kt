@@ -53,14 +53,28 @@ class ModoAvanzadoActivity : ActividadBase() {
         }
     }
 
-    private fun abrirDesarrollo() {
+private fun abrirDesarrollo() {
+    // Intent explícito para abrir el Fragmento exacto de Depuración Inalámbrica
+    val intentDepuracion = Intent().apply {
+        component = ComponentName(
+            "com.android.settings",
+            "com.android.settings.SubSettings"
+        )
+        putExtra(":settings:show_fragment", "com.android.settings.development.WirelessDebuggingFragment")
+        putExtra(":settings:show_fragment_title", "Depuración inalámbrica")
+    }
+
+    try {
+        startActivity(intentDepuracion)
+    } catch (e: Exception) {
+        // Plan B: Si falla, intentamos abrir las Opciones de desarrollador normales
         try {
             startActivity(Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS))
-        } catch (e: Exception) {
+        } catch (e2: Exception) {
             aviso(R.string.no_se_pudo_abrir)
         }
     }
-
+}
     private fun emparejar() {
         if (ShellManager.estado() == ShellManager.Estado.NO_DISPONIBLE) {
             aviso(R.string.adb_no_disponible)
