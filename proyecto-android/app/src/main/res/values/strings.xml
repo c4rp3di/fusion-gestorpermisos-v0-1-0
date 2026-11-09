@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gestor de Permisos</string>
+    <string name="subtitulo">Qué apps tienen acceso a tu cámara, tu ubicación y el resto de permisos sensibles</string>
+    <string name="estado_conectado">● Modo avanzado conectado: «Revocar» quita el permiso directamente</string>
+    <string name="estado_desconectado">○ Sin conexión: «Revocar» abrirá los ajustes de la app. Pulsa aquí para configurar el Modo Avanzado</string>
+    <string name="estado_no_disponible">○ Modo avanzado no disponible (necesita Android 11 o superior): «Revocar» abrirá los ajustes de la app</string>
+    <string name="aviso_principal">El Gestor de Permisos solo lee qué permisos tienen concedidos las apps de este teléfono y, si lo pides, se los quita. No envía nada fuera del teléfono. Quitar un permiso no desinstala la app: puede volver a pedirlo cuando lo necesite.</string>
+    <string name="ayuda_principal_titulo">Gestor de Permisos</string>
+    <string name="ayuda_principal">Aquí ves los permisos sensibles de Android (cámara, micrófono, ubicación, contactos, SMS…) y cuántas apps los tienen concedidos. Toca una categoría para ver cuáles son y quitárselo.\n\nCon el Modo Avanzado conectado, «Revocar» quita el permiso al instante. Sin él, Android no deja a una app tocar los permisos de otra, así que se abren los ajustes de esa app para que lo desactives tú.\n\nLa lista se actualiza sola al volver a esta pantalla.</string>
+    <string name="analizando">Analizando las apps instaladas…</string>
+    <string name="analizando_corto">Analizando…</string>
+    <string name="resumen_total">%1$d apps tienen algún permiso sensible concedido. Toca una categoría para revisarlas.</string>
+    <string name="resumen_total_cero">Ninguna app tiene permisos sensibles concedidos.</string>
+    <string name="error_escaneo">No se pudo leer la lista de apps: %1$s</string>
+
+    <string name="ayuda_categoria_titulo">Apps con este permiso</string>
+    <string name="ayuda_categoria">Estas son las apps que tienen ahora mismo este permiso concedido. Primero van las que instalaste tú y después las del sistema.\n\n«Revocar» quita el permiso a esa app. «Revocar todos» lo quita a todas las de la lista, una a una, salvo los componentes esenciales del sistema (pantalla de inicio, teclado, teléfono, Google Play Services…), que se respetan para no romper el teléfono.\n\nUna app a la que quitas un permiso puede volver a pedirlo la próxima vez que lo necesite; tú decides si se lo das.\n\nToca una fila para abrir los ajustes de esa app.</string>
+    <string name="aviso_sin_shell">Sin Modo Avanzado conectado: «Revocar» abrirá los ajustes de la app para que quites el permiso a mano, y «Revocar todos» no está disponible.</string>
+    <string name="aviso_shell_no_disponible">El Modo Avanzado necesita Android 11 o superior: «Revocar» abrirá los ajustes de la app para que quites el permiso a mano, y «Revocar todos» no está disponible.</string>
+    <string name="revocar">Revocar</string>
+    <string name="revocar_todos">Revocar todos</string>
+    <string name="cancelar_proceso">Cancelar</string>
+    <string name="vacio_categoria">Ninguna app tiene este permiso. ✓</string>
+    <string name="revocar_esencial_titulo">Esta app es esencial</string>
+    <string name="revocar_esencial_msg">%1$s %2$s. Quitarle el permiso puede hacer que alguna función del teléfono deje de funcionar. ¿Quitárselo de todos modos?</string>
+    <string name="revocado_ok">Permiso quitado a %1$s</string>
+    <string name="revocado_fallo_titulo">No se pudo quitar el permiso</string>
+    <string name="revocado_fallo_msg">%1$s: %2$s</string>
+    <string name="abrir_ajustes_app">Abrir ajustes de la app</string>
+    <string name="perdida_conexion">Se perdió la conexión con el Modo Avanzado. Abro los ajustes de la app para que lo quites a mano.</string>
+    <string name="pasos_ajustes">Ajustes de la app: toca «Permisos» y desactiva «%1$s». Al volver aquí la lista se actualiza.</string>
+    <string name="revocar_todos_titulo">Revocar todos</string>
+    <string name="revocar_todos_msg">Se quitará el permiso de «%1$s» a %2$d apps, una a una. Pueden volver a pedirlo cuando lo necesiten.</string>
+    <string name="revocar_todos_omitidas">Se respetan %1$d apps esenciales del sistema.</string>
+    <string name="solo_esenciales">Todas las apps de la lista son componentes esenciales del sistema. Quita el permiso a mano, app por app, si de verdad lo quieres.</string>
+    <string name="progreso">Quitando permiso %1$d de %2$d · %3$s</string>
+    <string name="resumen_titulo_ok">Listo</string>
+    <string name="resumen_titulo_cancelado">Cancelado</string>
+    <string name="resumen_titulo_perdida">Conexión perdida</string>
+    <string name="resumen_ok">✔ Permiso quitado a %1$d apps.</string>
+    <string name="resumen_fallos">✖ No se pudo en %1$d:</string>
+    <string name="resumen_omitidas">Se respetaron %1$d apps esenciales del sistema.</string>
+    <string name="resumen_perdida">La conexión con el Modo Avanzado se perdió: las apps que faltan siguen con el permiso. Vuelve a conectar y repite.</string>
+    <string name="resumen_pendientes">Quedaron sin procesar %1$d apps.</string>
+</resources>
