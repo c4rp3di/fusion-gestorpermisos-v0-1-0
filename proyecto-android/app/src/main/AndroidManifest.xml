@@ -28,6 +28,14 @@
             android:exported="false" />
 
         <activity
+            android:name=".AppsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AppDetalleActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".adb.ModoAvanzadoActivity"
             android:exported="false" />
     </application>
