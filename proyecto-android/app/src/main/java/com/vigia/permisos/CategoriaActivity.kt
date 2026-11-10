@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.snackbar.Snackbar
 import com.vigia.permisos.adb.ModoAvanzadoActivity
 import com.vigia.permisos.adb.ShellManager
 import com.vigia.permisos.core.ActividadBase
@@ -79,7 +80,7 @@ class CategoriaActivity : ActividadBase() {
         btnTodos.backgroundTintList = ColorStateList(arrayOf(sinEstadoActivo, intArrayOf()), intArrayOf(0x33FFFFFF, Tema.rojo(this)))
         btnTodos.setTextColor(ColorStateList(arrayOf(sinEstadoActivo, intArrayOf()), intArrayOf(0x61FFFFFF, Color.WHITE)))
 
-        adaptador = AppsAdapter(cat, { revocar(it) }, { abrirAjustes(it, false) })
+        adaptador = AppsAdapter(cat, { revocar(it) }, { abrirFicha(it) })
         val lista = findViewById<RecyclerView>(R.id.listaApps)
         lista.layoutManager = LinearLayoutManager(this)
         lista.adapter = adaptador
@@ -171,7 +172,7 @@ class CategoriaActivity : ActividadBase() {
             when (r) {
                 ResultadoRevocar.Ok -> {
                     quitar(app)
-                    aviso(getString(R.string.revocado_ok, app.etiqueta))
+                    avisarConDeshacer(app)
                 }
                 is ResultadoRevocar.Fallo -> {
                     sustituir(app, r.quedan)
@@ -184,6 +185,26 @@ class CategoriaActivity : ActividadBase() {
                 }
             }
         }
+    }
+
+    /** «Permiso quitado a X» con un botón para devolverlo si fue sin querer. */
+    private fun avisarConDeshacer(app: AppConPermiso) {
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.revocado_ok, app.etiqueta), Snackbar.LENGTH_LONG)
+            .setAction(R.string.deshacer) { deshacer(app) }
+            .show()
+    }
+
+    private fun deshacer(app: AppConPermiso) {
+        lifecycleScope.launch {
+            val r = Revocador.conceder(applicationContext, app.paquete, app.concedidos)
+            if (r !is ResultadoRevocar.Ok) aviso(getString(R.string.deshacer_fallo, app.etiqueta))
+            cargar()
+        }
+    }
+
+    /** La ficha de la app: ahí se ven todos sus permisos y se puede quitar o volver a conceder cada uno. */
+    private fun abrirFicha(app: AppConPermiso) {
+        startActivity(Intent(this, AppDetalleActivity::class.java).putExtra(AppDetalleActivity.EXTRA_PAQUETE, app.paquete))
     }
 
     private fun avisarFallo(app: AppConPermiso, motivo: String) {
