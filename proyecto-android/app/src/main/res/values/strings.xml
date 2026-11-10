@@ -5,9 +5,9 @@
     <string name="estado_conectado">● Modo avanzado conectado: «Revocar» quita el permiso directamente</string>
     <string name="estado_desconectado">○ Sin conexión: «Revocar» abrirá los ajustes de la app. Pulsa aquí para configurar el Modo Avanzado</string>
     <string name="estado_no_disponible">○ Modo avanzado no disponible (necesita Android 11 o superior): «Revocar» abrirá los ajustes de la app</string>
-    <string name="aviso_principal">El Gestor de Permisos solo lee qué permisos tienen concedidos las apps de este teléfono y, si lo pides, se los quita. No envía nada fuera del teléfono. Quitar un permiso no desinstala la app: puede volver a pedirlo cuando lo necesite.</string>
+    <string name="aviso_principal">El Gestor de Permisos solo lee qué permisos tienen concedidos las apps de este teléfono y, si lo pides, se los quita o se los devuelve. No envía nada fuera del teléfono. Quitar un permiso no desinstala la app: puede volver a pedirlo cuando lo necesite.</string>
     <string name="ayuda_principal_titulo">Gestor de Permisos</string>
-    <string name="ayuda_principal">Aquí ves los permisos sensibles de Android (cámara, micrófono, ubicación, contactos, SMS…) y cuántas apps los tienen concedidos. Toca una categoría para ver cuáles son y quitárselo.\n\nCon el Modo Avanzado conectado, «Revocar» quita el permiso al instante. Sin él, Android no deja a una app tocar los permisos de otra, así que se abren los ajustes de esa app para que lo desactives tú.\n\nLa lista se actualiza sola al volver a esta pantalla.</string>
+    <string name="ayuda_principal">Aquí ves los permisos sensibles de Android (cámara, micrófono, ubicación, contactos, SMS…) y cuántas apps los tienen concedidos. Toca una categoría para ver cuáles son y quitárselo, o entra en «Por app» para ver los permisos de cada app, buscarla y quitarle o devolverle los que quieras.\n\nCon el Modo Avanzado conectado, quitar y conceder permisos es inmediato. Sin él, Android no deja a una app tocar los permisos de otra, así que se abren los ajustes de esa app para que lo cambies tú.\n\nLa lista se actualiza sola al volver a esta pantalla.</string>
     <string name="analizando">Analizando las apps instaladas…</string>
     <string name="analizando_corto">Analizando…</string>
     <string name="resumen_total">%1$d apps tienen algún permiso sensible concedido. Toca una categoría para revisarlas.</string>
@@ -43,4 +43,42 @@
     <string name="resumen_omitidas">Se respetaron %1$d apps esenciales del sistema.</string>
     <string name="resumen_perdida">La conexión con el Modo Avanzado se perdió: las apps que faltan siguen con el permiso. Vuelve a conectar y repite.</string>
     <string name="resumen_pendientes">Quedaron sin procesar %1$d apps.</string>
+
+    <!-- Vista por app -->
+    <string name="por_app_titulo">Por app</string>
+    <string name="por_app_frase">Busca una app y gestiona todos sus permisos</string>
+    <string name="por_categoria">Por tipo de permiso</string>
+    <string name="titulo_apps">Permisos por app</string>
+    <string name="hint_buscar_app">Buscar por nombre o paquete</string>
+    <string name="filtro_todas">Todas</string>
+    <string name="filtro_mias">Instaladas por mí</string>
+    <string name="filtro_sistema">Sistema</string>
+    <string name="cualquier_permiso">Cualquier permiso</string>
+    <string name="solo_concedidos">Solo apps con algún permiso concedido</string>
+    <string name="vacio_apps">Ninguna app coincide con la búsqueda y los filtros.</string>
+    <string name="n_apps">%1$d de %2$d apps</string>
+    <string name="resumen_app">Concedidos: %1$d · Sin conceder: %2$d</string>
+    <string name="resumen_app_largo">%1$d permisos concedidos · %2$d sin conceder</string>
+    <string name="ayuda_apps_titulo">Permisos por app</string>
+    <string name="ayuda_apps">Aquí ves todas las apps que piden permisos sensibles. Escribe en el buscador para encontrar una, filtra por origen (instaladas por ti o del sistema) o por un tipo de permiso concreto.\n\nPor defecto solo salen las apps que tienen algún permiso concedido; desmarca esa casilla para ver también las que lo piden pero no lo tienen (por ejemplo, si quieres dárselo).\n\nToca una app para abrir su ficha.</string>
+
+    <!-- Ficha de app -->
+    <string name="ayuda_detalle_titulo">Ficha de la app</string>
+    <string name="ayuda_detalle">Cada fila es un permiso sensible que esta app pide. Toca una fila para quitarlo o para volver a concederlo.\n\nCon el Modo Avanzado conectado el cambio es inmediato. Sin él, se abren los ajustes de la app para que lo cambies a mano. Al volver aquí la ficha se actualiza.\n\n«Quitar todos» deja a la app sin ninguno de sus permisos sensibles concedidos. Si te equivocas, vuelve a concedérselos uno a uno desde aquí.\n\nAlgunos permisos no se pueden conceder desde fuera de Android (por ejemplo, los restringidos por el sistema o por una política del dispositivo): en ese caso verás el motivo.</string>
+    <string name="aviso_detalle_sin_shell">Sin Modo Avanzado conectado: al tocar un permiso se abrirán los ajustes de la app para que lo cambies a mano, y «Quitar todos» no está disponible.</string>
+    <string name="aviso_detalle_shell_no_disponible">El Modo Avanzado necesita Android 11 o superior: al tocar un permiso se abrirán los ajustes de la app para que lo cambies a mano, y «Quitar todos» no está disponible.</string>
+    <string name="etiqueta_usuario">Instalada por ti</string>
+    <string name="etiqueta_sistema">App del sistema</string>
+    <string name="etiqueta_esencial">App del sistema · %1$s</string>
+    <string name="estado_concedido">Concedido</string>
+    <string name="estado_sin_conceder">Sin conceder</string>
+    <string name="quitar_todos">Quitar todos</string>
+    <string name="quitar_todos_msg">Se quitarán los %1$d permisos sensibles que tiene concedidos %2$s. Podrás volver a concedérselos desde esta ficha.</string>
+    <string name="permiso_concedido">Permiso concedido</string>
+    <string name="permiso_quitado">Permiso quitado</string>
+    <string name="cambio_fallo_titulo">No se pudo cambiar el permiso</string>
+    <string name="pasos_ajustes_cambiar">Ajustes de la app: toca «Permisos» y cambia «%1$s». Al volver aquí la ficha se actualiza.</string>
+    <string name="app_no_disponible">Esta app ya no está instalada o no pide permisos sensibles.</string>
+    <string name="deshacer">Deshacer</string>
+    <string name="deshacer_fallo">No se pudo devolver el permiso a %1$s. Puedes hacerlo desde su ficha, en «Por app».</string>
 </resources>
