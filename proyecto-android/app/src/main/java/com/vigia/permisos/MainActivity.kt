@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.card.MaterialCardView
 import com.vigia.permisos.adb.ModoAvanzadoActivity
 import com.vigia.permisos.adb.ShellManager
 import com.vigia.permisos.core.ActividadBase
@@ -19,14 +20,20 @@ import com.vigia.permisos.permisos.EscanerPermisos
 import com.vigia.permisos.permisos.ResultadoEscaneo
 import kotlinx.coroutines.launch
 
-/** Pantalla principal: una tarjeta por categoría de permiso peligroso, con cuántas apps lo tienen concedido. */
+/**
+ * Pantalla principal: la entrada «Por app» y una tarjeta por categoría de permiso peligroso, con cuántas apps lo tienen
+ * concedido.
+ */
 class MainActivity : ActividadBase() {
+
+    /** Los dos textos que cambian en una tarjeta cuando llegan los datos: la frase y el número de la derecha. */
+    private class Tarjeta(val frase: TextView, val numero: TextView)
 
     private lateinit var estado: TextView
     private lateinit var resumen: TextView
     private lateinit var lista: LinearLayout
-    private val frases = HashMap<String, TextView>()
-    private val numeros = HashMap<String, TextView>()
+    private lateinit var porApp: Tarjeta
+    private val porCategoria = HashMap<String, Tarjeta>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +60,7 @@ class MainActivity : ActividadBase() {
         lifecycleScope.launch {
             pintarEstado(ShellManager.verificar())
         }
-        // Se vuelve a leer cada vez que se entra: la persona puede haber quitado permisos desde los ajustes de Android.
+        // Se vuelve a leer cada vez que se entra: la persona puede haber cambiado permisos desde los ajustes de Android.
         lifecycleScope.launch {
             try {
                 pintarConteos(EscanerPermisos.escanear(applicationContext))
@@ -63,49 +70,63 @@ class MainActivity : ActividadBase() {
         }
     }
 
+    /** Una tarjeta con icono, título, frase y número a la derecha. Devuelve la tarjeta y los textos que se rellenan después. */
+    private fun crearTarjeta(icono: String, titulo: String, frase: String): Pair<MaterialCardView, Tarjeta> {
+        val tarjeta = Ui.tarjeta(this)
+        val fila = LinearLayout(this)
+        fila.orientation = LinearLayout.HORIZONTAL
+        fila.gravity = Gravity.CENTER_VERTICAL
+        fila.setPadding(Ui.dp(this, 14), Ui.dp(this, 14), Ui.dp(this, 14), Ui.dp(this, 14))
+
+        val iconoVista = Ui.texto(this, icono, 26f)
+        iconoVista.gravity = Gravity.CENTER
+        fila.addView(iconoVista, LinearLayout.LayoutParams(Ui.dp(this, 44), ViewGroup.LayoutParams.WRAP_CONTENT))
+
+        val columna = LinearLayout(this)
+        columna.orientation = LinearLayout.VERTICAL
+        columna.addView(Ui.texto(this, titulo, 17f, true))
+        val fraseVista = Ui.texto(this, frase, 13f)
+        columna.addView(fraseVista)
+        fila.addView(columna, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+
+        val numero = Ui.texto(this, "…", 24f, true)
+        fila.addView(numero)
+
+        tarjeta.addView(fila, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        return Pair(tarjeta, Tarjeta(fraseVista, numero))
+    }
+
     private fun construirTarjetas() {
+        val (tarjetaApp, textosApp) = crearTarjeta("📱", getString(R.string.por_app_titulo), getString(R.string.por_app_frase))
+        tarjetaApp.setOnClickListener { startActivity(Intent(this, AppsActivity::class.java)) }
+        lista.addView(tarjetaApp)
+        porApp = textosApp
+
+        lista.addView(Ui.seccion(this, getString(R.string.por_categoria)))
+
         for (cat in Categorias.TODAS) {
-            val tarjeta = Ui.tarjeta(this)
-            val fila = LinearLayout(this)
-            fila.orientation = LinearLayout.HORIZONTAL
-            fila.gravity = Gravity.CENTER_VERTICAL
-            fila.setPadding(Ui.dp(this, 14), Ui.dp(this, 14), Ui.dp(this, 14), Ui.dp(this, 14))
-
-            val icono = Ui.texto(this, cat.icono, 26f)
-            icono.gravity = Gravity.CENTER
-            fila.addView(icono, LinearLayout.LayoutParams(Ui.dp(this, 44), ViewGroup.LayoutParams.WRAP_CONTENT))
-
-            val columna = LinearLayout(this)
-            columna.orientation = LinearLayout.VERTICAL
-            columna.addView(Ui.texto(this, cat.titulo, 17f, true))
-            val frase = Ui.texto(this, getString(R.string.analizando_corto), 13f)
-            columna.addView(frase)
-            fila.addView(columna, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
-
-            val numero = Ui.texto(this, "…", 24f, true)
-            fila.addView(numero)
-
-            tarjeta.addView(fila, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+            val (tarjeta, textos) = crearTarjeta(cat.icono, cat.titulo, getString(R.string.analizando_corto))
             tarjeta.setOnClickListener {
                 startActivity(Intent(this, CategoriaActivity::class.java).putExtra(CategoriaActivity.EXTRA_CATEGORIA, cat.id))
             }
             lista.addView(tarjeta)
-            frases[cat.id] = frase
-            numeros[cat.id] = numero
+            porCategoria[cat.id] = textos
         }
     }
 
     private fun pintarConteos(r: ResultadoEscaneo) {
         for (cat in Categorias.TODAS) {
             val n = r.porCategoria[cat.id]?.size ?: 0
-            frases[cat.id]?.text = Categorias.frase(cat, n)
-            val numero = numeros[cat.id]
-            if (numero != null) {
-                numero.text = n.toString()
-                numero.setTextColor(if (n > 0) Tema.ambar(this) else Tema.verde(this))
+            val textos = porCategoria[cat.id]
+            if (textos != null) {
+                textos.frase.text = Categorias.frase(cat, n)
+                textos.numero.text = n.toString()
+                textos.numero.setTextColor(if (n > 0) Tema.ambar(this) else Tema.verde(this))
             }
         }
         val distintas = r.porCategoria.values.flatten().map { it.paquete }.toSet().size
+        porApp.numero.text = distintas.toString()
+        porApp.numero.setTextColor(Tema.azul(this))
         resumen.text = if (distintas == 0) getString(R.string.resumen_total_cero) else getString(R.string.resumen_total, distintas)
     }
 
